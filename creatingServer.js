@@ -1,16 +1,20 @@
+require("dotenv").config();
 const express = require("express");
-const db = require("./db");
 const app = express();
+const db = require("./db");
 const bodyParser = require("body-parser");
+const passport = require("./auth");
+
+// Middleware
 app.use(bodyParser.json());
-const personRoutes = require("./Routes/PersonRoutes");
-const MenuItemRoutes = require("./Routes/MenuItemRoutes");
-require('dotenv').config();
+app.use(passport.initialize());
+
+// Define the PORT
 const PORT = process.env.PORT || 3000;
 
-
+// Define Routes with Authentication
 app.get("/", (req, res) => {
-  res.send("Welcome to port 3000");
+  res.send("<h1>Welcome to our Hotel</h1>");
 });
 
 app.get("/smartphones", (req, res) => {
@@ -18,7 +22,7 @@ app.get("/smartphones", (req, res) => {
 });
 
 app.get("/tv", (req, res) => {
-  var customTV = {
+  const customTV = {
     brand: "Sony",
     model: "Bravia 4K OLED",
     year: 2024,
@@ -30,13 +34,16 @@ app.get("/computer", (req, res) => {
   res.send("<h1>Buy laptops, desktops and accessories</h1>");
 });
 
-// Routes
-app.use("/person", personRoutes);
-app.use("/menuitem", MenuItemRoutes);
+// Auth middleware
+const localAuthMiddleware = passport.authenticate("local", { session: false });
 
+// Use the routes
+const personRoutes = require("./Routes/PersonRoutes");
+const menuItemRoutes = require("./Routes/MenuItemRoutes");
+app.use("/person", localAuthMiddleware, personRoutes);
+app.use("/menuitem", menuItemRoutes);
 
-
-
+// Start the server
 app.listen(PORT, () => {
-  console.log("Server is running...");
+  console.log(`Server is running on port ${PORT}...`);
 });

@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
     res.status(200).json({ menuData });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ err: "Internal server error..." });
+    res.status(500).json({ err: "Internal server error while fetching menuitems..." });
   }
 });
 
@@ -27,7 +27,11 @@ router.get("/:tasteType", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal server error..." });
+    res
+      .status(500)
+      .json({
+        error: "Internal server error while fetching taste based menuitems...",
+      });
   }
 });
 
@@ -42,7 +46,7 @@ router.post("/", async (req, res) => {
     res.status(200).json({ response });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ err: "Internal server error..." });
+    res.status(500).json({ err: "Internal server error while saving menuitems..." });
   }
 });
 

@@ -6,11 +6,11 @@ const Person = require("./../Models/Person");
 router.get("/", async (req, res) => {
   try {
     const personData = await Person.find();
-    console.log("Data fetched...");
+    console.log("Person fetched...");
     res.status(200).json({ personData });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ err: "Error while fetching data..." });
+    res.status(500).json({ err: "Error while fetching person data..." });
   }
 });
 
@@ -21,11 +21,11 @@ router.post("/", async (req, res) => {
 
   try {
     const response = await newPerson.save();
-    console.log("Data saved successfully...");
+    console.log("Person saved successfully...");
     res.status(200).json({ response });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ err: "Internal server error" });
+    res.status(500).json({ err: "Intern error while registering a person..." });
   }
 });
 
@@ -42,7 +42,7 @@ router.get("/:workType", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal server error..." });
+    res.status(500).json({ error: "Internal Error whilte finding work type person..." });
   }
 });
 
@@ -60,11 +60,11 @@ router.put("/:id", async (req, res) => {
       res.status(404).json({ error: "person not found" });
     }
 
-    console.log("Data updated successfully...");
+    console.log("Person updated successfully...");
     res.status(200).json({ response });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal server error..." });
+    res.status(500).json({ error: "Internal server error while updating person..." });
   }
 });
 
@@ -78,11 +78,11 @@ router.delete("/:id", async (req, res) => {
       res.status(404).json({ error: "person not found" });
     }
 
-    console.log("Data deleted successfully...");
+    console.log("Person deleted successfully...");
     res.status(200).json({ response });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal server error..." });
+    res.status(500).json({ error: "Internal server error while deleting a person..." });
   }
 });
 
